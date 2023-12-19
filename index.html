@@ -1,71 +1,206 @@
-<!-- create a portfolio page with a nice style in html -->
+<!-- create a portfolio website page with good look with good design with html and css -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Portfolio</title>
-	<link rel="stylesheet" href="css/style.css">
+	<title>Portfolio Website</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 </head>
 
+
 <body>
-	<div class="container">
+	<!-- header section start -->
+	<header>
 		<div class="header">
-			<h1>Portfolio</h1>
+			<div class="header-container">
+				<div class="header-logo">
+					<a href="#">Portfolio</a>
+				</div>
+				<div class="header-nav">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li><a href="#">About</a></li>
+						<li><a href="#">Portfolio</a></li>
+						<li><a href="#">Contact</a></li>
+					</ul>
+				</div>
+				<div class="header-btn">
+					<a href="#">Hire Me</a>
+				</div>
+			</div>
 		</div>
-		<div class="nav">
-			<ul>
-				<li><a href="index.html">Home</a></li>
-				<li><a href="portfolio.html">Portfolio</a></li>
-				<li><a href="contact.html">Contact</a></li>
-			</ul>
+	</header>
+	<!-- header section end -->
+
+	<!-- banner section start -->
+	<section class="banner">
+		<div class="banner-container">
+			<div class="banner-content">
+				<h1>I'm <span>John Doe</span></h1>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, voluptatum.</p>
+				<div class="banner-btn">
+					<a href="#">Hire Me</a>
+					<a href="#">Download CV</a>
+				</div>
+			</div>
 		</div>
-		<div class="content">
-			<div class="main">
+	</section>
+	<!-- banner section end -->
+
+	<!-- about section start -->
+	<section class="about">
+		<div class="about-container">
+			<div class="about-content">
+				<div class="about-img">
+					<img src="images/about-img.jpg" alt="">
+				</div>
+				<div class="about-text">
+					<h2>About Me</h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, voluptatum.</p>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, voluptatum.</p>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, voluptatum.</p>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, voluptatum.</p>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, voluptatum.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- about section end -->
+
+	<!-- portfolio section start -->
+	<section class="portfolio">
+		<div class="portfolio-container">
+			<div class="portfolio-content">
 				<h2>Portfolio</h2>
-				<p>Here are some of my works</p>
-				<div class="portfolio">
-					<div class="item">
-						<img src="img/1.jpg" alt="1">
-						<h3>Project 1</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, voluptatum.</p>
+				<div class="portfolio-box">
+					<div class="portfolio-img">
+						<img src="images/portfolio-img1.jpg" alt="">
 					</div>
-					<div class="item">
-						<img src="img/2.jpg" alt="2">
-						<h3>Project 2</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, voluptatum.</p>
+					<div class="portfolio-img">
+						<img src="images/portfolio-img2.jpg" alt="">
 					</div>
-					<div class="item">
-						<img src="img/3.jpg" alt="3">
-						<h3>Project 3</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, voluptatum.</p>
+					<div class="portfolio-img">
+						<img src="images/portfolio-img3.jpg" alt="">
 					</div>
-					<div class="item">
-						<img src="img/4.jpg" alt="4">
-						<h3>Project 4</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, voluptatum.</p>
+					<div class="portfolio-img">
+						<img src="images/portfolio-img4.jpg" alt="">
 					</div>
-					<div class="item">
-						<img src="img/5.jpg" alt="5">
-						<h3>Project 5</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, voluptatum.</p>
+					<div class="portfolio-img">
+						<img src="images/portfolio-img5.jpg" alt="">
 					</div>
-					<div class="item">
-						<img src="img/6.jpg" alt="6">
-						<h3>Project 6</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, voluptatum.</p>
+					<div class="portfolio-img">
+						<img src="images/portfolio-img6.jpg" alt="">
 					</div>
 				</div>
 			</div>
-			<div class="sidebar">
-				<h2>About Me</h2>
-				<img src="img/1.jpg" alt="1">
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, voluptatum.</p>
+		</div>
+	</section>
+	<!-- portfolio section end -->
+
+	<!-- contact section start -->
+
+	<section class="contact">
+		<div class="contact-container">
+			<div class="contact-content">
+				<h2>Contact</h2>
+				<div class="contact-box">
+					<div class="contact-left">
+						<h3>Get in Touch</h3>
+						<form action="">
+							<input type="text" placeholder="Name">
+							<input type="email" placeholder="Email">
+							<textarea name="" id="" cols="30" rows="10" placeholder="Message"></textarea>
+							<input type="submit" value="Send Message">
+						</form>
+					</div>
+					<div class="contact-right">
+						<h3>Address</h3>
+						<p>123, Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.</p>
+						<h3>Phone</h3>
+						<p>+880 123456789</p>
+						<h3>Email</h3>
+						<p>
+	<a href="mailto:">
+		<span>
+			<i class="fas fa-envelope"></i>
+		</span>
+		<span>
+
+		</span>
+	</a>
+</p>
+						<h3>Social</h3>
+						<p>
+	<a href="https://www.facebook.com/" target="_blank">
+		<span>
+			<i class="fab fa-facebook-f"></i>
+		</span>
+		<span>
+			Facebook
+		</span>
+	</a>
+</p>
+<p>
+	<a href="https://www.twitter.com/" target="_blank">
+		<span>
+			<i class="fab fa-twitter"></i>
+		</span>
+		<span>
+			Twitter
+		</span>
+	</a>
+</p>
+<p>
+	<a href="https://www.instagram.com/" target="_blank">
+		<span>
+			<i class="fab fa-instagram"></i>
+		</span>
+		<span>
+			Instagram
+		</span>
+	</a>
+</p>
+<p>
+	<a href="https://www.linkedin.com/" target="_blank">
+		<span>
+			<i class="fab fa-linkedin-in"></i>
+		</span>
+		<span>
+			Linkedin
+		</span>
+	</a>
+</p>
+					</div>
+				</div>
 			</div>
 		</div>
+	</section>
+   	<!-- contact section end -->
+
+	   	<!-- footer section start -->
+	<footer>
 		<div class="footer">
-			<p>Copy right &copy; 2016</p>
+			<div class="footer-container">
+				<div class="footer-logo">
+					<a href="#">Portfolio</a>
+				</div>
+				<div class="footer-nav">
+					<ul>
+						<li><a href="#">Home</a></li>
+						<li><a href="#">About</a></li>
+						<li><a href="#">Portfolio</a></li>
+						<li><a href="#">Contact</a></li>
+					</ul>
+				</div>
+				<div class="footer-btn">
+					<a href="#">Hire Me</a>
+				</div>
+			</div>
 		</div>
-	</div>
+	</footer>
+	<!-- footer section end -->
+
 </body>
 </html>
