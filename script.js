@@ -1,70 +1,36 @@
-const canvas = document.getElementById('particleCanvas');
-const ctx = canvas.getContext('2d');
+// script.js
+const container = document.getElementById('particle-container');
+const numParticles = 50; // Number of particles
 
-let particles = [];
-const numParticles = 50;
+function createParticle() {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
 
-class Particle {
-    constructor(x, y, radius, color) {
-        this.x = x;
-        this.y = y;
-        this.radius = radius;
-        this.color = color;
-        this.velocity = {
-            x: (Math.random() - 0.5) * 2,
-            y: (Math.random() - 0.5) * 2
-        };
-    }
+    // Randomize size
+    const size = Math.random() * 8 + 4; // Between 4px and 12px
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
 
-    draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-    }
+    // Randomize position
+    particle.style.left = `${Math.random() * 100}vw`;
+    particle.style.top = `${Math.random() * 100}vh`;
 
-    update() {
-        this.x += this.velocity.x;
-        this.y += this.velocity.y;
+    // Randomize animation duration and delay
+    particle.style.animationDuration = `${Math.random() * 5 + 3}s`; // Between 3s and 8s
+    particle.style.animationDelay = `${Math.random() * 5}s`; // Up to 5s delay
 
-        if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
-            this.velocity.x = -this.velocity.x;
-        }
+    container.appendChild(particle);
 
-        if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
-            this.velocity.y = -this.velocity.y;
-        }
-
-        this.draw();
-    }
-}
-
-function init() {
-    particles = [];
-    for (let i = 0; i < numParticles; i++) {
-        const radius = Math.random() * 3 + 1;
-        const x = Math.random() * (canvas.width - radius * 2) + radius;
-        const y = Math.random() * (canvas.height - radius * 2) + radius;
-        const color = 'rgba(173, 216, 230, 0.8)';
-        particles.push(new Particle(x, y, radius, color));
-    }
-}
-
-function animate() {
-    requestAnimationFrame(animate);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    particles.forEach(particle => {
-        particle.update();
+    // Remove particle after animation ends to prevent memory leaks
+    particle.addEventListener('animationend', () => {
+        particle.remove();
     });
 }
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    init();
+// Generate initial particles
+for (let i = 0; i < numParticles; i++) {
+    createParticle();
 }
 
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-animate();
+// Continuously regenerate particles
+setInterval(createParticle, 200);
