@@ -1,36 +1,44 @@
-// script.js
-const container = document.getElementById('particle-container');
-const numParticles = 50; // Number of particles
+const container = document.getElementById('orb-container');
 
-function createParticle() {
-    const particle = document.createElement('div');
-    particle.classList.add('particle');
+// Generate orbs
+function createOrb() {
+    const orb = document.createElement('div');
+    orb.classList.add('orb');
 
-    // Randomize size
-    const size = Math.random() * 8 + 4; // Between 4px and 12px
-    particle.style.width = `${size}px`;
-    particle.style.height = `${size}px`;
+    // Random size between 10px and 50px
+    const size = Math.random() * 40 + 10;
+    orb.style.width = `${size}px`;
+    orb.style.height = `${size}px`;
 
-    // Randomize position
-    particle.style.left = `${Math.random() * 100}vw`;
-    particle.style.top = `${Math.random() * 100}vh`;
+    // Random position within the viewport
+    orb.style.left = `${Math.random() * 100}vw`;
+    orb.style.top = `${Math.random() * 100}vh`;
 
-    // Randomize animation duration and delay
-    particle.style.animationDuration = `${Math.random() * 5 + 3}s`; // Between 3s and 8s
-    particle.style.animationDelay = `${Math.random() * 5}s`; // Up to 5s delay
+    // Random color
+    orb.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 70%)`;
 
-    container.appendChild(particle);
+    // Append to container
+    container.appendChild(orb);
 
-    // Remove particle after animation ends to prevent memory leaks
-    particle.addEventListener('animationend', () => {
-        particle.remove();
-    });
+    // Remove orb after animation ends to prevent memory leaks
+    setTimeout(() => orb.remove(), 10000);
 }
 
-// Generate initial particles
-for (let i = 0; i < numParticles; i++) {
-    createParticle();
-}
+// Create multiple orbs at intervals
+setInterval(createOrb, 200);
 
-// Continuously regenerate particles
-setInterval(createParticle, 200);
+// Optional: Add floating animation using CSS keyframes
+const styleSheet = document.createElement('style');
+styleSheet.innerHTML = `
+    @keyframes float {
+        0% { transform: translateY(0px) translateX(0px); }
+        50% { transform: translateY(${Math.random() * 200 - 100}px) translateX(${Math.random() * 200 - 100}px); }
+        100% { transform: translateY(0px) translateX(0px); }
+    }
+
+    @keyframes color-shift {
+        0% { filter: hue-rotate(0deg); }
+        100% { filter: hue-rotate(360deg); }
+    }
+`;
+document.head.appendChild(styleSheet);
