@@ -1,42 +1,70 @@
-// script.js
-const container = document.querySelector('.particles-container');
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
 
-function createParticle() {
-  const particle = document.createElement('div');
-  particle.classList.add('particle');
+let particles = [];
+const numParticles = 50;
 
-  // Randomize size, position, and color
-  const size = Math.random() * 5 + 2; // Between 2px and 7px
-  particle.style.width = `${size}px`;
-  particle.style.height = `${size}px`;
-  particle.style.backgroundColor = `hsl(${Math.random() * 360}, 50%, 80%)`;
+class Particle {
+    constructor(x, y, radius, color) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.velocity = {
+            x: (Math.random() - 0.5) * 2,
+            y: (Math.random() - 0.5) * 2
+        };
+    }
 
-  // Randomize starting position
-  particle.style.left = `${Math.random() * 100}vw`;
-  particle.style.top = `${Math.random() * 100}vh`;
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
 
-  // Randomize animation duration and delay
-  const duration = Math.random() * 10 + 5; // Between 5s and 15s
-  particle.style.animationDuration = `${duration}s`;
-  particle.style.animationDelay = `${Math.random() * 5}s`;
+    update() {
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
 
-  container.appendChild(particle);
+        if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+            this.velocity.x = -this.velocity.x;
+        }
 
-  // Remove particle after animation ends to free memory
-  setTimeout(() => particle.remove(), duration * 1000);
+        if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+            this.velocity.y = -this.velocity.y;
+        }
+
+        this.draw();
+    }
 }
 
-// Create multiple particles
-setInterval(createParticle, 100); // Adjust frequency here
-
-// Define keyframes for floating motion
-document.head.innerHTML += `
-  <style>
-    @keyframes float {
-      0% { transform: translateY(0) translateX(0); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateY(${Math.random() > 0.5 ? '-' : ''}${Math.random() * 100}vh) translateX(${Math.random() > 0.5 ? '-' : ''}${Math.random() * 100}vw); opacity: 0; }
+function init() {
+    particles = [];
+    for (let i = 0; i < numParticles; i++) {
+        const radius = Math.random() * 3 + 1;
+        const x = Math.random() * (canvas.width - radius * 2) + radius;
+        const y = Math.random() * (canvas.height - radius * 2) + radius;
+        const color = 'rgba(173, 216, 230, 0.8)';
+        particles.push(new Particle(x, y, radius, color));
     }
-  </style>
-`;
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(particle => {
+        particle.update();
+    });
+}
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    init();
+}
+
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+animate();
