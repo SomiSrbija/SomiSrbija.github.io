@@ -1,26 +1,17 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const sparklesContainer = document.querySelector('.sparkles');
+document.addEventListener('DOMContentLoaded', () => {
+    const sparkleContainer = document.querySelector('.candle-container');
 
     function createSparkle() {
         const sparkle = document.createElement('div');
         sparkle.classList.add('sparkle');
+        sparkle.style.left = `${Math.random() * 50 - 25 + 50}%`;
+        sparkle.style.animationDuration = `${Math.random() * 2 + 1}s`;
+        sparkleContainer.appendChild(sparkle);
 
-        // Randomize position
-        const x = Math.random() * window.innerWidth;
-        const y = Math.random() * window.innerHeight;
-
-        sparkle.style.left = `${x}px`;
-        sparkle.style.top = `${y}px`;
-
-        // Add sparkle to the container
-        sparklesContainer.appendChild(sparkle);
-
-        // Remove sparkle after animation ends
         sparkle.addEventListener('animationend', () => {
             sparkle.remove();
         });
     }
 
-    // Create sparkles every 200ms
-    setInterval(createSparkle, 200);
+    setInterval(createSparkle, 300);
 });
