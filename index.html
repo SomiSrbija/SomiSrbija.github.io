@@ -1,94 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Candle with Sparkles</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: #1a1a1a;
-        }
-        .candle {
-            position: relative;
-            width: 50px;
-            height: 200px;
-        }
-        .wick {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 5px;
-            height: 40px;
-            background: #f0e68c;
-            border-radius: 2.5px;
-        }
-        .flame {
-            position: absolute;
-            bottom: 35px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 25px solid transparent;
-            border-right: 25px solid transparent;
-            border-bottom: 50px solid #ff4500;
-            animation: flicker 1s infinite alternate;
-        }
-        .sparkle {
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: sparkleAnimation 2s infinite ease-out;
-        }
-        @keyframes flicker {
-            0% { border-bottom-color: #ff4500; }
-            50% { border-bottom-color: #ffa500; }
-            100% { border-bottom-color: #ff4500; }
-        }
-        @keyframes sparkleAnimation {
-            0% { opacity: 0; transform: translateY(-20px) scale(0); }
-            50% { opacity: 1; transform: translateY(-50px) scale(1); }
-            100% { opacity: 0; transform: translateY(-100px) scale(0); }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosmic Particles</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="candle">
-        <div class="wick"></div>
-        <div class="flame"></div>
-        <div class="sparkle" style="animation-delay: 0s;"></div>
-        <div class="sparkle" style="animation-delay: 0.2s;"></div>
-        <div class="sparkle" style="animation-delay: 0.4s;"></div>
-        <div class="sparkle" style="animation-delay: 0.6s;"></div>
-        <div class="sparkle" style="animation-delay: 0.8s;"></div>
-    </div>
-    <script>
-        const candle = document.querySelector('.candle');
-        const flame = document.querySelector('.flame');
-
-        function createSparkle() {
-            const sparkle = document.createElement('div');
-            sparkle.classList.add('sparkle');
-            sparkle.style.left = `${Math.random() * 100}%`;
-            sparkle.style.animationDelay = `${Math.random() * 2}s`;
-            candle.appendChild(sparkle);
-
-            sparkle.addEventListener('animationend', () => {
-                candle.removeChild(sparkle);
-            });
-        }
-
-        setInterval(createSparkle, 100);
-    </script>
+  <div class="particles-container"></div>
+  <script src="script.js"></script>
 </body>
 </html>
