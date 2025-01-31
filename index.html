@@ -1,8 +1,9 @@
 <canvas id="particle-canvas"></canvas>
-<div id="settings-icon">🛠️</div>
+<div id="settings-icon">⚙️</div>
 <div id="settings-panel">
   <label>Particle Size: </label>
   <input type="range" id="sizeSlider" min="0.5" max="5" step="0.5" value="1">
+  <button id="themeToggle">Toggle Theme</button>
 </div>
 
 <style>
@@ -10,8 +11,13 @@
     margin: 0;
     background: #000;
     font-family: Arial, sans-serif;
+    transition: background 0.5s ease;
   }
   
+  body.light-theme {
+    background: #fff;
+  }
+
   #particle-canvas {
     position: fixed;
     top: 0;
@@ -30,18 +36,18 @@
     z-index: 1000;
     font-size: 24px;
     color: rgba(255, 255, 255, 0.8);
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
   }
 
-  #settings-icon:hover {
-    transform: rotate(45deg);
+  body.light-theme #settings-icon {
+    color: rgba(0, 0, 0, 0.8);
   }
 
   #settings-panel {
     position: fixed;
     top: 60px;
-    right: -200px;
-    background: rgba(0, 0, 0, 0.8);
+    right: -250px;
+    background: rgba(0, 0, 0, 0.9);
     padding: 20px;
     border-radius: 8px;
     color: white;
@@ -49,6 +55,12 @@
     transition: right 0.3s ease;
     z-index: 1000;
     backdrop-filter: blur(5px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  body.light-theme #settings-panel {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
   }
 
   #settings-panel.active {
@@ -57,7 +69,25 @@
 
   #sizeSlider {
     width: 100%;
+    margin: 10px 0;
+  }
+
+  #themeToggle {
+    width: 100%;
+    padding: 8px;
     margin-top: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  body.light-theme #themeToggle {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #333;
   }
 </style>
 
@@ -65,11 +95,13 @@
   const canvas = document.getElementById('particle-canvas');
   const ctx = canvas.getContext('2d');
   let particleSizeScale = 1;
+  let isDarkTheme = true;
 
   // Settings elements
   const settingsIcon = document.getElementById('settings-icon');
   const settingsPanel = document.getElementById('settings-panel');
   const sizeSlider = document.getElementById('sizeSlider');
+  const themeToggle = document.getElementById('themeToggle');
 
   // Toggle settings panel
   settingsIcon.addEventListener('click', () => {
@@ -84,6 +116,12 @@
     });
   });
 
+  // Handle theme toggle
+  themeToggle.addEventListener('click', () => {
+    isDarkTheme = !isDarkTheme;
+    document.body.classList.toggle('light-theme', !isDarkTheme);
+  });
+
   // Set canvas size
   function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -95,6 +133,7 @@
   // Particle class
   class Particle {
     constructor() {
+      this.hue = Math.random() * 360;
       this.reset();
     }
     
@@ -105,7 +144,6 @@
       this.vy = (Math.random() - 0.5) * 0.3;
       this.baseRadius = Math.random() * 2;
       this.radius = this.baseRadius * particleSizeScale;
-      this.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
     }
     
     update() {
@@ -122,7 +160,7 @@
 
   // Animation loop
   function animate() {
-    ctx.fillStyle = '#000';
+    ctx.fillStyle = isDarkTheme ? '#000' : '#fff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     particles.forEach(particle => {
@@ -130,7 +168,7 @@
       
       ctx.beginPath();
       ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-      ctx.fillStyle = particle.color;
+      ctx.fillStyle = `hsl(${particle.hue}, 70%, ${isDarkTheme ? '60%' : '30%'})`;
       ctx.fill();
       
       particles.forEach(other => {
@@ -142,7 +180,7 @@
           ctx.beginPath();
           ctx.moveTo(particle.x, particle.y);
           ctx.lineTo(other.x, other.y);
-          ctx.strokeStyle = particle.color;
+          ctx.strokeStyle = `hsl(${particle.hue}, 70%, ${isDarkTheme ? '60%' : '30%'})`;
           ctx.globalAlpha = 1 - distance/100;
           ctx.lineWidth = 0.5;
           ctx.stroke();
