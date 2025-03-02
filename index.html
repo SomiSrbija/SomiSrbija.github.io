@@ -1,195 +1,51 @@
-<canvas id="particle-canvas"></canvas>
-<div id="settings-icon">⚙️</div>
-<div id="settings-panel">
-  <label>Particle Size: </label>
-  <input type="range" id="sizeSlider" min="0.5" max="5" step="0.5" value="1">
-  <button id="themeToggle">Toggle Theme</button>
-</div>
-
-<style>
-  body {
-    margin: 0;
-    background: #000;
-    font-family: Arial, sans-serif;
-    transition: background 0.5s ease;
-  }
-  
-  body.light-theme {
-    background: #fff;
-  }
-
-  #particle-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-  }
-
-  #settings-icon {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    cursor: pointer;
-    z-index: 1000;
-    font-size: 24px;
-    color: rgba(255, 255, 255, 0.8);
-    transition: all 0.3s ease;
-  }
-
-  body.light-theme #settings-icon {
-    color: rgba(0, 0, 0, 0.8);
-  }
-
-  #settings-panel {
-    position: fixed;
-    top: 60px;
-    right: -250px;
-    background: rgba(0, 0, 0, 0.9);
-    padding: 20px;
-    border-radius: 8px;
-    color: white;
-    width: 200px;
-    transition: right 0.3s ease;
-    z-index: 1000;
-    backdrop-filter: blur(5px);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-
-  body.light-theme #settings-panel {
-    background: rgba(255, 255, 255, 0.9);
-    color: #333;
-  }
-
-  #settings-panel.active {
-    right: 20px;
-  }
-
-  #sizeSlider {
-    width: 100%;
-    margin: 10px 0;
-  }
-
-  #themeToggle {
-    width: 100%;
-    padding: 8px;
-    margin-top: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  body.light-theme #themeToggle {
-    background: rgba(0, 0, 0, 0.1);
-    border-color: rgba(0, 0, 0, 0.2);
-    color: #333;
-  }
-</style>
-
-<script>
-  const canvas = document.getElementById('particle-canvas');
-  const ctx = canvas.getContext('2d');
-  let particleSizeScale = 1;
-  let isDarkTheme = true;
-
-  // Settings elements
-  const settingsIcon = document.getElementById('settings-icon');
-  const settingsPanel = document.getElementById('settings-panel');
-  const sizeSlider = document.getElementById('sizeSlider');
-  const themeToggle = document.getElementById('themeToggle');
-
-  // Toggle settings panel
-  settingsIcon.addEventListener('click', () => {
-    settingsPanel.classList.toggle('active');
-  });
-
-  // Handle size change
-  sizeSlider.addEventListener('input', (e) => {
-    particleSizeScale = parseFloat(e.target.value);
-    particles.forEach(particle => {
-      particle.radius = particle.baseRadius * particleSizeScale;
-    });
-  });
-
-  // Handle theme toggle
-  themeToggle.addEventListener('click', () => {
-    isDarkTheme = !isDarkTheme;
-    document.body.classList.toggle('light-theme', !isDarkTheme);
-  });
-
-  // Set canvas size
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
-
-  // Particle class
-  class Particle {
-    constructor() {
-      this.hue = Math.random() * 360;
-      this.reset();
-    }
-    
-    reset() {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
-      this.vx = (Math.random() - 0.5) * 0.3;
-      this.vy = (Math.random() - 0.5) * 0.3;
-      this.baseRadius = Math.random() * 2;
-      this.radius = this.baseRadius * particleSizeScale;
-    }
-    
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
-      
-      if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-      if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-    }
-  }
-
-  // Create particles
-  const particles = Array.from({ length: 50 }, () => new Particle());
-
-  // Animation loop
-  function animate() {
-    ctx.fillStyle = isDarkTheme ? '#000' : '#fff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    particles.forEach(particle => {
-      particle.update();
-      
-      ctx.beginPath();
-      ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-      ctx.fillStyle = `hsl(${particle.hue}, 70%, ${isDarkTheme ? '60%' : '30%'})`;
-      ctx.fill();
-      
-      particles.forEach(other => {
-        const dx = particle.x - other.x;
-        const dy = particle.y - other.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < 100) {
-          ctx.beginPath();
-          ctx.moveTo(particle.x, particle.y);
-          ctx.lineTo(other.x, other.y);
-          ctx.strokeStyle = `hsl(${particle.hue}, 70%, ${isDarkTheme ? '60%' : '30%'})`;
-          ctx.globalAlpha = 1 - distance/100;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-      });
-    });
-    
-    requestAnimationFrame(animate);
-  }
-
-  animate();
-</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Solar System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="solar-system">
+        <div class="sun"></div>
+        <div class="orbit mercury-orbit">
+            <div class="planet mercury" data-planet="mercury"></div>
+        </div>
+        <div class="orbit venus-orbit">
+            <div class="planet venus" data-planet="venus"></div>
+        </div>
+        <div class="orbit earth-orbit">
+            <div class="planet earth" data-planet="earth"></div>
+        </div>
+        <div class="orbit mars-orbit">
+            <div class="planet mars" data-planet="mars"></div>
+        </div>
+        <div class="orbit jupiter-orbit">
+            <div class="planet jupiter" data-planet="jupiter"></div>
+        </div>
+        <div class="orbit saturn-orbit">
+            <div class="planet saturn" data-planet="saturn"></div>
+        </div>
+        <div class="orbit uranus-orbit">
+            <div class="planet uranus" data-planet="uranus"></div>
+        </div>
+        <div class="orbit neptune-orbit">
+            <div class="planet neptune" data-planet="neptune"></div>
+        </div>
+    </div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="planet-name"></h2>
+            <p id="planet-info"></p>
+        </div>
+    </div>
+    <div class="controls">
+        <button id="faster">Faster</button>
+        <button id="slower">Slower</button>
+        <button id="pause">Pause</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
