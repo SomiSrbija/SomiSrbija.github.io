@@ -1,123 +1,207 @@
-// Planet data
-const planets = {
-    mercury: {
-        name: "Mercury",
-        diameter: "4,879 km",
-        distance: "57.9 million km",
-        description: "Mercury is the smallest planet in the Solar System and the closest to the Sun."
-    },
-    venus: {
-        name: "Venus",
-        diameter: "12,104 km",
-        distance: "108.2 million km",
-        description: "Venus is the second planet from the Sun and is known for its thick, toxic atmosphere."
-    },
-    earth: {
-        name: "Earth",
-        diameter: "12,742 km",
-        distance: "149.6 million km",
-        description: "Earth is the third planet from the Sun and the only known planet to support life."
-    },
-    mars: {
-        name: "Mars",
-        diameter: "6,779 km",
-        distance: "227.9 million km",
-        description: "Mars is the fourth planet from the Sun and is known as the Red Planet."
-    },
-    jupiter: {
-        name: "Jupiter",
-        diameter: "139,820 km",
-        distance: "778.5 million km",
-        description: "Jupiter is the largest planet in the Solar System and is known for its Great Red Spot."
-    },
-    saturn: {
-        name: "Saturn",
-        diameter: "116,460 km",
-        distance: "1.4 billion km",
-        description: "Saturn is the second-largest planet and is famous for its ring system."
-    },
-    uranus: {
-        name: "Uranus",
-        diameter: "50,724 km",
-        distance: "2.9 billion km",
-        description: "Uranus is the seventh planet from the Sun and has a unique sideways rotation."
-    },
-    neptune: {
-        name: "Neptune",
-        diameter: "49,244 km",
-        distance: "4.5 billion km",
-        description: "Neptune is the eighth planet from the Sun and is known for its strong winds."
+document.addEventListener('DOMContentLoaded', () => {
+    const machines = document.querySelectorAll('.machine');
+    const sections = document.querySelectorAll('.section');
+
+    // Navigation between arcade machines and sections
+    machines.forEach(machine => {
+        machine.addEventListener('click', () => {
+            const sectionId = machine.getAttribute('data-section');
+            sections.forEach(section => {
+                section.style.display = section.id === sectionId ? 'block' : 'none';
+            });
+        });
+    });
+
+    document.querySelectorAll('.back').forEach(button => {
+        button.addEventListener('click', () => {
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+        });
+    });
+
+    // Magic 8-Ball
+    const answers = [
+        "It is certain.", "It is decidedly so.", "Without a doubt.", "Yes – definitely.",
+        "You may rely on it.", "As I see it, yes.", "Most likely.", "Outlook good.",
+        "Yes.", "Signs point to yes.", "Reply hazy, try again.", "Ask again later.",
+        "Better not tell you now.", "Cannot predict now.", "Concentrate and ask again.",
+        "Don't count on it.", "My reply is no.", "My sources say no.", "Outlook not so good.",
+        "Very doubtful."
+    ];
+
+    document.getElementById('shake').addEventListener('click', () => {
+        const answerDiv = document.getElementById('answer');
+        const randomIndex = Math.floor(Math.random() * answers.length);
+        answerDiv.textContent = answers[randomIndex];
+        const eightball = document.getElementById('eightball');
+        eightball.classList.add('shake');
+        setTimeout(() => eightball.classList.remove('shake'), 500);
+    });
+
+    // Random Joke Generator
+    document.getElementById('getjoke').addEventListener('click', () => {
+        fetch('https://official-joke-api.appspot.com/random_joke')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('joke').innerHTML = `<p>${data.setup}</p><p>${data.punchline}</p>`;
+            })
+            .catch(error => {
+                console.error('Error fetching joke:', error);
+                document.getElementById('joke').textContent = 'Failed to load joke. Try again!';
+            });
+    });
+
+    // Tic-Tac-Toe
+    let board = Array(9).fill(null);
+    let currentPlayer = 'X';
+
+    function checkWin(player) {
+        const wins = [
+            [0,1,2], [3,4,5], [6,7,8], // Rows
+            [0,3,6], [1,4,7], [2,5,8], // Columns
+            [0,4,8], [2,4,6]           // Diagonals
+        ];
+        return wins.some(win => win.every(index => board[index] === player));
     }
-};
 
-// DOM elements
-const modal = document.getElementById('modal');
-const planetImage = document.getElementById('planet-image');
-const planetName = document.getElementById('planet-name');
-const planetInfo = document.getElementById('planet-info');
-const closeBtn = document.querySelector('.close');
-const orbits = document.querySelectorAll('.orbit');
-const planetElements = document.querySelectorAll('.planet');
-const fasterBtn = document.getElementById('faster');
-const slowerBtn = document.getElementById('slower');
-const pauseBtn = document.getElementById('pause');
-let isPaused = false;
-
-// Close modal when close button is clicked
-closeBtn.onclick = function() {
-    modal.style.display = 'none';
-};
-
-// Close modal when clicking outside
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = 'none';
+    function checkDraw() {
+        return board.every(cell => cell !== null);
     }
-};
 
-// Show planet info and image on click
-planetElements.forEach(planet => {
-    planet.addEventListener('click', function() {
-        const planetId = this.getAttribute('data-planet');
-        const planetData = planets[planetId];
-        const planetImgSrc = this.querySelector('img').src;
-        planetImage.src = planetImgSrc;
-        planetName.textContent = planetData.name;
-        planetInfo.innerHTML = `Diameter: ${planetData.diameter}<br>Distance from Sun: ${planetData.distance}<br>${planetData.description}`;
-        modal.style.display = 'block';
+    function computerMove() {
+        const emptyCells = board.map((cell, i) => cell === null ? i : null).filter(i => i !== null);
+        const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        board[randomIndex] = 'O';
+        document.querySelector(`.cell[data-index="${randomIndex}"]`).textContent = 'O';
+    }
+
+    document.querySelectorAll('.cell').forEach(cell => {
+        cell.addEventListener('click', () => {
+            const index = cell.getAttribute('data-index');
+            if (board[index] === null && currentPlayer === 'X') {
+                board[index] = 'X';
+                cell.textContent = 'X';
+                if (checkWin('X')) {
+                    document.getElementById('message').textContent = 'You win!';
+                } else if (checkDraw()) {
+                    document.getElementById('message').textContent = 'Draw!';
+                } else {
+                    currentPlayer = 'O';
+                    computerMove();
+                    if (checkWin('O')) {
+                        document.getElementById('message').textContent = 'Computer wins!';
+                    } else if (checkDraw()) {
+                        document.getElementById('message').textContent = 'Draw!';
+                    } else {
+                        currentPlayer = 'X';
+                    }
+                }
+            }
+        });
+    });
+
+    document.getElementById('reset').addEventListener('click', () => {
+        board = Array(9).fill(null);
+        document.querySelectorAll('.cell').forEach(cell => cell.textContent = '');
+        document.getElementById('message').textContent = '';
+        currentPlayer = 'X';
+    });
+
+    // Drawing Pad
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let painting = false;
+    let color = '#000000';
+    let brushSize = 5;
+
+    function startPosition(e) {
+        painting = true;
+        draw(e);
+    }
+
+    function endPosition() {
+        painting = false;
+        ctx.beginPath();
+    }
+
+    function draw(e) {
+        if (!painting) return;
+        ctx.lineWidth = brushSize;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = color;
+        ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+    }
+
+    canvas.addEventListener('mousedown', startPosition);
+    canvas.addEventListener('mouseup', endPosition);
+    canvas.addEventListener('mousemove', draw);
+
+    document.getElementById('color').addEventListener('change', e => color = e.target.value);
+    document.getElementById('brushSize').addEventListener('change', e => brushSize = e.target.value);
+    document.getElementById('clear').addEventListener('click', () => ctx.clearRect(0, 0, canvas.width, canvas.height));
+
+    // Interactive Animation
+    const particleCanvas = document.getElementById('particleCanvas');
+    const pCtx = particleCanvas.getContext('2d');
+    const particles = [];
+
+    function Particle(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 5 + 1;
+        this.speedX = Math.random() * 3 - 1.5;
+        this.speedY = Math.random() * 3 - 1.5;
+    }
+
+    function createParticles() {
+        for (let i = 0; i < 100; i++) {
+            particles.push(new Particle(Math.random() * 400, Math.random() * 400));
+        }
+    }
+
+    function drawParticles() {
+        pCtx.clearRect(0, 0, 400, 400);
+        particles.forEach(p => {
+            pCtx.beginPath();
+            pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            pCtx.fillStyle = 'white';
+            pCtx.fill();
+        });
+    }
+
+    function updateParticles() {
+        particles.forEach(p => {
+            p.x += p.speedX;
+            p.y += p.speedY;
+            if (p.x < 0 || p.x > 400) p.speedX *= -1;
+            if (p.y < 0 || p.y > 400) p.speedY *= -1;
+        });
+    }
+
+    function animate() {
+        updateParticles();
+        drawParticles();
+        requestAnimationFrame(animate);
+    }
+
+    createParticles();
+    animate();
+
+    particleCanvas.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX - particleCanvas.offsetLeft;
+        const mouseY = e.clientY - particleCanvas.offsetTop;
+        particles.forEach(p => {
+            const dx = p.x - mouseX;
+            const dy = p.y - mouseY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 100) {
+                p.x += dx * 0.1;
+                p.y += dy * 0.1;
+            }
+        });
     });
 });
-
-// Speed up orbiting
-fasterBtn.addEventListener('click', function() {
-    orbits.forEach(orbit => {
-        const currentDuration = parseFloat(window.getComputedStyle(orbit).animationDuration);
-        orbit.style.animationDuration = (currentDuration * 0.8) + 's';
-    });
-});
-
-// Slow down orbiting
-slowerBtn.addEventListener('click', function() {
-    orbits.forEach(orbit => {
-        const currentDuration = parseFloat(window.getComputedStyle(orbit).animationDuration);
-        orbit.style.animationDuration = (currentDuration * 1.2) + 's';
-    });
-});
-
-// Pause/resume animation
-pauseBtn.addEventListener('click', function() {
-    isPaused = !isPaused;
-    orbits.forEach(orbit => {
-        orbit.style.animationPlayState = isPaused ? 'paused' : 'running';
-    });
-    pauseBtn.textContent = isPaused ? 'Resume' : 'Pause';
-});
-
-// Add background stars
-for (let i = 0; i < 100; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    star.style.top = Math.random() * 100 + '%';
-    star.style.left = Math.random() * 100 + '%';
-    document.querySelector('.solar-system').appendChild(star);
-}
