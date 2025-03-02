@@ -52,6 +52,7 @@ const planets = {
 
 // DOM elements
 const modal = document.getElementById('modal');
+const planetImage = document.getElementById('planet-image');
 const planetName = document.getElementById('planet-name');
 const planetInfo = document.getElementById('planet-info');
 const closeBtn = document.querySelector('.close');
@@ -74,11 +75,13 @@ window.onclick = function(event) {
     }
 };
 
-// Show planet info on click
+// Show planet info and image on click
 planetElements.forEach(planet => {
     planet.addEventListener('click', function() {
         const planetId = this.getAttribute('data-planet');
         const planetData = planets[planetId];
+        const planetImgSrc = this.querySelector('img').src;
+        planetImage.src = planetImgSrc;
         planetName.textContent = planetData.name;
         planetInfo.innerHTML = `Diameter: ${planetData.diameter}<br>Distance from Sun: ${planetData.distance}<br>${planetData.description}`;
         modal.style.display = 'block';

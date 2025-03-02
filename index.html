@@ -8,35 +8,54 @@
 </head>
 <body>
     <div class="solar-system">
-        <div class="sun"></div>
+        <div class="sun">
+            <img src="images/sun.png" alt="Sun">
+        </div>
         <div class="orbit mercury-orbit">
-            <div class="planet mercury" data-planet="mercury"></div>
+            <div class="planet mercury" data-planet="mercury" title="Mercury">
+                <img src="images/mercury.png" alt="Mercury">
+            </div>
         </div>
         <div class="orbit venus-orbit">
-            <div class="planet venus" data-planet="venus"></div>
+            <div class="planet venus" data-planet="venus" title="Venus">
+                <img src="images/venus.png" alt="Venus">
+            </div>
         </div>
         <div class="orbit earth-orbit">
-            <div class="planet earth" data-planet="earth"></div>
+            <div class="planet earth" data-planet="earth" title="Earth">
+                <img src="images/earth.png" alt="Earth">
+            </div>
         </div>
         <div class="orbit mars-orbit">
-            <div class="planet mars" data-planet="mars"></div>
+            <div class="planet mars" data-planet="mars" title="Mars">
+                <img src="images/mars.png" alt="Mars">
+            </div>
         </div>
         <div class="orbit jupiter-orbit">
-            <div class="planet jupiter" data-planet="jupiter"></div>
+            <div class="planet jupiter" data-planet="jupiter" title="Jupiter">
+                <img src="images/jupiter.png" alt="Jupiter">
+            </div>
         </div>
         <div class="orbit saturn-orbit">
-            <div class="planet saturn" data-planet="saturn"></div>
+            <div class="planet saturn" data-planet="saturn" title="Saturn">
+                <img src="images/saturn.png" alt="Saturn">
+            </div>
         </div>
         <div class="orbit uranus-orbit">
-            <div class="planet uranus" data-planet="uranus"></div>
+            <div class="planet uranus" data-planet="uranus" title="Uranus">
+                <img src="images/uranus.png" alt="Uranus">
+            </div>
         </div>
         <div class="orbit neptune-orbit">
-            <div class="planet neptune" data-planet="neptune"></div>
+            <div class="planet neptune" data-planet="neptune" title="Neptune">
+                <img src="images/neptune.png" alt="Neptune">
+            </div>
         </div>
     </div>
     <div id="modal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close">×</span>
+            <img id="planet-image" src="" alt="Planet Image">
             <h2 id="planet-name"></h2>
             <p id="planet-info"></p>
         </div>
