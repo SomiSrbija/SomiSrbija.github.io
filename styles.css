@@ -1,1 +1,120 @@
+body {
+    background-color: #000;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
 
+.solar-system {
+    position: relative;
+    width: 800px;
+    height: 800px;
+    margin: 50px auto;
+}
+
+.sun {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background-color: yellow;
+    border-radius: 50%;
+}
+
+.orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px dashed #fff;
+    border-radius: 50%;
+    animation: rotate linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.planet {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.mercury-orbit { width: 150px; height: 150px; animation-duration: 4s; }
+.venus-orbit { width: 250px; height: 250px; animation-duration: 6s; }
+.earth-orbit { width: 350px; height: 350px; animation-duration: 8s; }
+.mars-orbit { width: 450px; height: 450px; animation-duration: 10s; }
+.jupiter-orbit { width: 550px; height: 550px; animation-duration: 12s; }
+.saturn-orbit { width: 650px; height: 650px; animation-duration: 14s; }
+.uranus-orbit { width: 750px; height: 750px; animation-duration: 16s; }
+.neptune-orbit { width: 850px; height: 850px; animation-duration: 18s; }
+
+.mercury { background-color: gray; width: 10px; height: 10px; }
+.venus { background-color: orange; width: 15px; height: 15px; }
+.earth { background-color: blue; width: 15px; height: 15px; }
+.mars { background-color: red; width: 12px; height: 12px; }
+.jupiter { background-color: brown; width: 30px; height: 30px; }
+.saturn { background-color: yellow; width: 25px; height: 25px; }
+.uranus { background-color: lightblue; width: 20px; height: 20px; }
+.neptune { background-color: darkblue; width: 20px; height: 20px; }
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    color: #000;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.controls {
+    text-align: center;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background-color: white;
+}
