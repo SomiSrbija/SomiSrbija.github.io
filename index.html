@@ -3,12 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Solar System</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
+    <title>Your GitHub Solar System Profile</title>
+    <link rel="stylesheet" href="style.css"> </head>
 <body>
-    <div id="solar-system"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <div class="solar-system">
+        <div class="sun">
+            <img src="your-profile-pic.jpg" alt="Your Profile Picture">
+            <h1>Your Name</h1>
+        </div>
+
+        <div class="orbit orbit-1">
+            <div class="planet planet-projects" data-info="projects-info">
+                <i class="fas fa-code-branch"></i> <span class="planet-label">Projects</span>
+            </div>
+        </div>
+
+        <div class="orbit orbit-2">
+            <div class="planet planet-skills" data-info="skills-info">
+                <i class="fas fa-laptop-code"></i> <span class="planet-label">Skills</span>
+            </div>
+            <div class="planet planet-repos" data-info="repos-info">
+                <i class="fab fa-github-alt"></i> <span class="planet-label">Repositories</span>
+            </div>
+        </div>
+
+        <div class="orbit orbit-3">
+            <div class="planet planet-blog" data-info="blog-info">
+                <i class="fas fa-blog"></i> <span class="planet-label">Blog</span>
+            </div>
+            <div class="planet planet-contact" data-info="contact-info">
+                <i class="fas fa-envelope"></i> <span class="planet-label">Contact</span>
+            </div>
+            <div class="planet planet-about" data-info="about-info">
+                <i class="fas fa-user"></i> <span class="planet-label">About Me</span>
+            </div>
+        </div>
+
+        <div class="planet-info-box" id="planet-info-box">
+            <div class="info-content" id="info-content">
+                <!-- Information will be dynamically loaded here -->
+            </div>
+            <button id="close-info-btn"><i class="fas fa-times"></i> Close</button>
+        </div>
+    </div>
+
     <script src="script.js"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script> <!-- Font Awesome Icons -->
 </body>
 </html>
